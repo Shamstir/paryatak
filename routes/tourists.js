@@ -32,4 +32,22 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+// GET /api/v1/tourists/scan/:qr_band_token
+router.get('/scan/:qr_band_token', async (req, res) => {
+    try {
+      const { rows } = await db.query('SELECT name, phone_number FROM tourists WHERE qr_band_token = $1', [req.params.qr_band_token]);
+      if (rows.length === 0) {
+        return res.status(404).json({ error: 'Tourist not found' });
+      }
+      const emergencyContacts = await db.query('SELECT name, phone_number FROM emergency_contacts WHERE tourist_id = (SELECT id FROM tourists WHERE qr_band_token = $1)', [req.params.qr_band_token]);
+      res.json({
+        tourist_info: rows[0],
+        emergency_contacts: emergencyContacts.rows
+      });
+    } catch (err) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
 module.exports = router;
