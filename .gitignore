@@ -1,10 +1,13 @@
-# Python
+
+# Dependency directory
+node_modules/
+
+# Environment variables
+.env
+
+# Python leftovers
 __pycache__/
 *.pyc
 
-# Virtual Environment
-venv/
-.venv/
-
-# Environment Variables
-.env
+# OS generated files
+.DS_Store
