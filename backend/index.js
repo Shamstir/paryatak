@@ -8,6 +8,7 @@ import { scheduleAiJobs } from './services/aiIntegrationServices.js';
 import userRoutes from './routes/userRoutes.js';
 import tripRoutes from './routes/tripRoutes.js';
 import panicRoutes from './routes/panicRoutes.js';
+import blockchainRoutes from './routes/blockchainRoutes.js';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ const io = new Server(server, {
 
 app.use(cors());
 app.use(express.json());
+app.use('/api/blockchain', blockchainRoutes);
 
 db.connect();
 
