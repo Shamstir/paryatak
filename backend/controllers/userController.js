@@ -38,7 +38,7 @@ export const getUserProfile = async (req, res) => {
 
 export const getSafetyScore = async (req,res) => {
     try {
-        const {firebase_uid} =req.body;
+        const {firebase_uid} =req.user;
         const query = `
             SELECT s.score, s.factors, s.calculated_at
             FROM safety_scores s
