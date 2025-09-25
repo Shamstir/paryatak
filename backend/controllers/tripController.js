@@ -1,7 +1,7 @@
 import {db} from '../db/connect.js'
 
 const getUserId = async (firebaseUid) => {
-    const {rows} = await db.query('SELECT id FROM users WHERE firebaseUid = $1', [firebaseUid]);
+    const {rows} = await db.query('SELECT id FROM users WHERE firebase_uid = $1', [firebaseUid]);
     return rows[0]?.id;
 };
 
@@ -9,7 +9,7 @@ const getUserId = async (firebaseUid) => {
 export const createTrips = async (req,res) => {
     const {destination_city, destination_country, start_date, end_date, itinerary_details} = req.body;
     try {
-        const userId = await getUserId(req.user.firebaseUid);
+        const userId = await getUserId(req.user.firebase_uid);
         if (!userId) {
             return res.status(404).json({message: "User not found"});
         }
@@ -30,7 +30,7 @@ export const createTrips = async (req,res) => {
 // --- SEARCH ---
 export const getTrips = async (req, res) => {
     try {
-        const userId = await getUserId(req.user.firebaseUid);
+        const userId = await getUserId(req.user.firebase_uid);
         if (!userId) {
             return res.status(400).json({message: "User not found"});
         }
@@ -48,7 +48,7 @@ export const updateTrip = async (req, res) => {
     const { destination_city, destination_country, start_date, end_date, itinerary_details } = req.body;
 
     try {
-        const userId = await getUserId(req.user.firebaseUid);
+        const userId = await getUserId(req.user.firebase_uid);
         if (!userId) {
             return res.status(404).json({ message: "User not found." });
         }
@@ -78,7 +78,7 @@ export const deleteTrip = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const userId = await getUserId(req.user.firebaseUid);
+        const userId = await getUserId(req.user.firebase_uid);
         if (!userId) {
             return res.status(404).json({ message: "User not found." });
         }
