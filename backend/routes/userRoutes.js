@@ -8,5 +8,6 @@ router.use(authMiddleware);
 router.post('/sync',userController.syncUser);
 router.get('/profile',userController.getUserProfile);
 router.get('/safety-score',userController.getSafetyScore);
+router.post('/issue-id',userController.issueDigitalId);
 
 export default router;
